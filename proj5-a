@@ -1,0 +1,64 @@
+//Nanette CST112
+//Project 5 
+
+float x, y;                  
+float sidewalk;
+float spacing=60;
+
+ Person people;
+
+
+//SETUP: define screen size//
+void setup() {
+  size (600, 600 );
+  x = 0;
+  y = 0;   
+  sidewalk = height/1.5;
+  background (135, 206, 250);          //sky
+  people (); 
+}
+
+
+//DRAW: sky, ground, house, tree, sun//
+void draw() {
+  scene();
+  message();
+  people.show();
+  
+} 
+
+//SCENE:
+void scene() {           
+
+  fill (192, 192, 192 );
+  rect ( x, sidewalk, width, 600 );    //green ground
+  stroke (255, 255, 255);
+  fill (255, 255, 255);
+  while (x <= width) {
+    ellipse ( x+50, y+150, 50, 30);        //cloud    
+    x = x + spacing;
+  }
+}
+
+
+//MESSAGES: title and author 
+void message() {
+  fill (0);
+  text ("Nanette, CST112", 10, height -10 );
+}
+
+//CLASS DEFINITIONS///
+
+class Person {
+
+  float x, y;
+  float tall= random ( sidewalk, 250);
+  float wide= random (50, 350);
+
+  //Display People
+  void people() { 
+    stroke ( 255, 0, 0 );
+    fill ( 255, 0, 0 );  
+    rect ( x, y, tall, wide );
+  }
+}
