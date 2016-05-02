@@ -1,0 +1,125 @@
+///Project 5
+///By: Ana Collantes
+
+String author="Ana Collantes";
+int many=8;
+Person[] human=new Person[many];
+int x=700;
+int y=600;
+float sidewalk=461;
+float l; ///where letters are going to be at
+int last;
+
+float birdX, birdY;
+int wing1=7;
+int wing2;
+int flap=25;
+float cloudX;
+float cloudY=random(1, 35);
+
+void setup() {
+  size(x, y);
+  reset();
+}
+void reset() {
+  l=height/1.3;
+  //--for ( int p=0; p<=7; p=p+1) {
+  for ( int p=0; p<many; p=p+1) {
+    human[p]= new Person(p*79);
+  }
+  last=  many-1;
+}
+
+
+void draw() {
+  background(209, 243, 255);
+  fill(230, 201, 255);
+  rect(0, l, x, y);
+
+  bird();
+  clouds();
+  for ( int c=0; c<=4; c=c+1) {
+    text( c, 10, 10+c*12 );
+  }     
+  for ( int p=0; p<many; p=p+1) {
+    human[p].drawhuman();
+  }
+}
+
+void bird() {
+  fill(92, 185, 174);
+  ellipse(birdX, birdY, 30, 20); // body
+  triangle(birdX-wing1, birdY, birdX+wing1, birdY, birdX+wing2, birdY+flap); //// wing
+  ellipse(birdX+16, birdY, 10, 10); // head
+
+
+  birdX +=  (human[last].personX - birdX) / 90;
+  float top=  (sidewalk - human[last].big);
+  birdY +=  (top -birdY) / 90;
+  //--  text( birdX, 10,10 );
+  //--  text( birdY, 10,20 );
+
+  if (birdY>0) { 
+    flap=-25;
+  } 
+  if (birdY<200) { 
+    flap=25;
+  }
+}
+
+void clouds() {
+  fill(255, 255, 255, 191);
+  ellipse(cloudX, cloudY, 50, 20);
+
+  cloudX=cloudX+3;
+}
+
+
+void keyPressed() {
+  if (key == 'r') reset();
+  if (key == 't') tall();
+  if (key == 'b') birdX=birdY=0;
+}
+void tall() {
+  //// Move tallest to end.
+  //// Find index "k" of tallest; change personX to PersonX of last.
+  int k=0;
+  for (int j=1; j<many; j++) {
+    if(human[j].big > human[k].big) k=j;
+  }
+  swap( human, k, last );
+  //// 
+  //
+  last=  k;
+}
+void swap( Person human[], int k, int last ) {
+  float save;
+  save=human[k].personX;
+  human[k].personX=  human[last].personX;      // Move k-th to end.
+  human[last].personX=  save;                   // Move last to old X of tallest.
+}
+
+
+//// OBJECTS ////
+class Person {
+  float personX;
+  float big;
+  float w;
+  float r;
+  float b;
+  float g;
+  // CONSTRUCTOR //
+  Person(float h) {
+    personX=h+random(20, 40);
+    big=  random(50, 150);
+    w=  random(20, 60);
+    r=  random(0, 255);
+    b=  random(0, 255);
+    g=  random(0, 255);
+  }
+  void drawhuman() {
+    fill(r, g, b);
+    rect(personX, sidewalk, w, -big);
+    ellipse(personX+w/2, sidewalk-big-15, 15, 25);
+  }
+}
